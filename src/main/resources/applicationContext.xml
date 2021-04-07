@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--1-->
+    <bean id="userDao" class="dao.impl.UserDaoImpl">
+        <property name="strList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="u1" value-ref="user1"></entry>
+                <entry key="u2" value-ref="user2"></entry>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">ppp1</prop>
+                <prop key="p2">ppp2</prop>
+                <prop key="p3">ppp3</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="user1" class="pojo.User">
+        <property name="name" value="tom" />
+        <property name="addr" value="beijing" />
+    </bean>
+
+    <bean id="user2" class="pojo.User">
+        <property name="name" value="lucy" />
+        <property name="addr" value="shanghai" />
+    </bean>
+
+<!--2-->
+    <bean id="userDao2" class="factory.StaticFactory" factory-method="getUserDao"/>
+
+<!--3-->
+    <bean id="factory" class="factory.DynamicFactory"/>
+    <bean id="userDao3" factory-bean="factory" factory-method="getUserDao"/>
+
+
+    <bean id="userService" class="service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"></constructor-arg>
+    </bean>
+
+    <bean id="userService2" class="service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"></constructor-arg>
+    </bean>
+</beans>
